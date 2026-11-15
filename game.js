@@ -116,10 +116,16 @@
 
       // ================= STEP 1 — Panel 1: the well =================
       s.step1 = s.add.container(0, 0);
-      inkPanel(s, 16, 40, 358, 138);
-      // Well image, cropped to the panel ratio (1200x400 -> 955x400 centre crop)
+      // Panel fill MUST live inside the step-1 container, below the image.
+      // Scene-root inkPanel was painted above the container and hid the well.
+      var wellPanelBg = inkPanel(s, 16, 40, 358, 138);
+      s.step1.add(wellPanelBg);
+      // Well image, cropped to the panel ratio (1200x400 -> 1038x400 centre crop).
+      // NOTE: never use setCrop() + setDisplaySize() together — Phaser sizes
+      // from the uncropped frame, so the image renders at the cropped fraction
+      // of its height. Use setScale() from the cropped dimensions instead.
       var well = s.add.image(16, 40, 'panel_well').setOrigin(0);
-      well.setCrop(122, 0, 955, 400).setDisplaySize(358, 138);
+      well.setCrop(81, 0, 1038, 400).setScale(358 / 1038, 138 / 400);
       // keep the crop visible only inside the panel: mask it
       var maskShape = s.make.graphics({ add: false });
       maskShape.fillStyle(0xffffff, 1);
@@ -176,11 +182,12 @@
         align: 'center', wordWrap: { width: 330, useAdvancedWrap: true }, lineSpacing: 2
       }).setOrigin(0.5));
 
-      // Left panel: Maren portrait (1120x2240, centre crop on head + shoulders)
+      // Left panel: Maren portrait (1120x2240, crop on head + shoulders,
+      // sized to the 170x176 panel ratio: 1120x1160 crop, uniform scale)
       var leftPanelBg = inkPanel(s, 16, 322, 170, 176);
       s.step2.add(leftPanelBg);
       var maren = s.add.image(16, 322, 'portrait_maren').setOrigin(0);
-      maren.setCrop(0, 150, 1120, 1239).setDisplaySize(170, 176);
+      maren.setCrop(0, 150, 1120, 1160).setScale(170 / 1120, 176 / 1160);
       var marenMask = s.make.graphics({ add: false });
       marenMask.fillStyle(0xffffff, 1);
       marenMask.fillRect(19, 325, 164, 170);
@@ -214,7 +221,7 @@
       var stairPanelBg = inkPanel(s, 16, 508, 358, 136);
       s.step3.add(stairPanelBg);
       var stairs = s.add.image(16, 508, 'panel_staircase').setOrigin(0);
-      stairs.setCrop(0, 152, 1200, 496).setDisplaySize(358, 136);
+      stairs.setCrop(0, 172, 1200, 456).setScale(358 / 1200, 136 / 456);
       var stairMask = s.make.graphics({ add: false });
       stairMask.fillStyle(0xffffff, 1);
       stairMask.fillRect(19, 511, 352, 130);
