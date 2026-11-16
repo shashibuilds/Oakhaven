@@ -13,14 +13,14 @@
         {
           "id": "p1-well",
           "layout": "wide",
-          "image": "assets/panel_well.png",
+          "image": "assets/panel_well.webp",
           "alt": "A mossy stone well with a hanging lantern beside a foggy village and river at dusk.",
           "caption": "The chapel bell tolled thirteen times—and Oakhaven’s well water turned black as pitch."
         },
         {
           "id": "p1-maren",
           "layout": "split",
-          "image": "assets/portrait_maren.png",
+          "image": "assets/portrait_maren.webp",
           "alt": "Maren, the village archivist: a guarded middle-aged woman in a dark wool cloak, arms crossed.",
           "name": "Maren — Archivist",
           "speech": "No one touched the seal, traveler. The old forest curse woke on its own.",
@@ -34,22 +34,22 @@
           "id": "p1-result-seal",
           "when": { "hasSealFragment": true },
           "layout": "wide",
-          "image": "assets/panel_staircase.png",
+          "image": "assets/panel_staircase.webp",
           "alt": "A hidden stone stair winding down beneath the well, lit by a lantern.",
           "banner": "Clue Gained: Abbey Seal Fragment",
           "narration": "You match the crimson wax to the archivist’s ring — revealing a hidden stair beneath the well.",
-          "thumb": "assets/panel_clue.png",
+          "thumb": "assets/panel_clue.webp",
           "end": true
         },
         {
           "id": "p1-result-boots",
           "when": { "marenCornered": true },
           "layout": "wide",
-          "image": "assets/panel_staircase.png",
+          "image": "assets/panel_staircase.webp",
           "alt": "A hidden stone stair winding down beneath the well, lit by a lantern.",
           "banner": "Maren: Cornered & Suspicious",
           "narration": "She flinches, dropping a heavy iron key that unlocks the stair beneath the well.",
-          "thumb": "assets/panel_clue.png",
+          "thumb": "assets/panel_clue.webp",
           "end": true
         }
       ]
