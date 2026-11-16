@@ -1,0 +1,306 @@
+/* Oakhaven — Page 1: The Black Well
+ * Plain HTML, CSS and JavaScript. No framework, no build step, no CDN.
+ * Fonts are local woff2 files in fonts/. Colors from docs/STYLE.md. */
+
+@font-face {
+  font-family: 'IM Fell English'; font-style: normal; font-weight: 400;
+  font-display: swap; src: url('../fonts/im-fell-english-regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IM Fell English'; font-style: italic; font-weight: 400;
+  font-display: swap; src: url('../fonts/im-fell-english-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 500;
+  font-display: swap; src: url('../fonts/cormorant-garamond-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600;
+  font-display: swap; src: url('../fonts/cormorant-garamond-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 500;
+  font-display: swap; src: url('../fonts/cormorant-garamond-500-italic.woff2') format('woff2');
+}
+
+:root {
+  /* Colors (docs/STYLE.md) */
+  --parchment: #F4ECE1;
+  --ink: #2B2623;
+  --gold: #C9A227;
+  --gold-light: #D9A441;
+  --panel-bg: #EFE3C8;
+  --caption-bg: #EADFC6;
+  --bubble-bg: #FFFDF6;
+  --muted: #5A4A3A;
+  --gold-brown: #8A6D1B;
+  --page-outside: #1A1714;
+  /* Type */
+  --serif: 'IM Fell English', 'Cormorant Garamond', Georgia, serif;
+  --body-size: 17px;
+  --caption-size: 16px;
+  --small-size: 14px;
+  /* Layout */
+  --max-width: 480px;
+  --gap: 16px;
+  --panel-pad: 12px;
+  --radius: 6px;
+  --button-min-height: 48px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { background: var(--page-outside); }
+
+body {
+  font-family: var(--serif);
+  font-size: var(--body-size);
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--page-outside);
+}
+
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--gap);
+  background: var(--parchment);
+}
+
+/* Header: "Oakhaven" and the page title, as in the old version. */
+.page-header { text-align: center; margin-bottom: var(--gap); }
+.page-header h1 {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+}
+.page-subtitle {
+  font-size: var(--small-size);
+  font-style: italic;
+  color: var(--muted);
+}
+
+.error {
+  font-size: var(--body-size);
+  text-align: center;
+  padding: 32px 16px;
+}
+
+/* Panels: ink double border, revealed one at a time with a short fade. */
+.panel {
+  position: relative;
+  margin-bottom: var(--gap);
+  animation: panel-fade 0.35s ease both;
+}
+@keyframes panel-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.panel figure {
+  position: relative;
+  border: 3px solid var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: -9px;
+  background: var(--panel-bg);
+}
+.panel figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Small panel number tag, top-left on the image so it never covers text. */
+.panel-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--parchment);
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.caption {
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--caption-bg);
+  border: 2px solid var(--ink);
+  font-size: var(--caption-size);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Speech bubble above a split panel. */
+.speech {
+  position: relative;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  background: var(--bubble-bg);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  font-size: var(--body-size);
+  font-style: italic;
+  text-align: center;
+}
+.speech::after {
+  content: "";
+  position: absolute;
+  left: 36px;
+  bottom: -12px;
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+}
+
+/* Split layout: portrait on the left, choices on the right. */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  align-items: stretch;
+}
+.split figure {
+  /* Face shows: crop from the top, never any maths in JavaScript. */
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.split figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.split .portrait-col { display: flex; flex-direction: column; }
+.speaker {
+  margin-top: 0;
+  padding: 6px 4px;
+  background: var(--ink);
+  color: var(--parchment);
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.choices-col {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 3px solid var(--ink);
+  outline: 1px solid var(--ink);
+  outline-offset: -9px;
+  padding: 10px;
+}
+.hint {
+  font-size: var(--small-size);
+  font-weight: bold;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+button {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--ink);
+  min-height: var(--button-min-height);
+  cursor: pointer;
+}
+button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+button:disabled { cursor: default; }
+
+.choice {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  background: var(--panel-bg);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  line-height: 1.3;
+}
+.choice:last-of-type { margin-bottom: 0; }
+.choice:hover:not(:disabled) { background: #E3C878; }
+.choice.chosen {
+  border-width: 3px;
+  border-color: var(--gold);
+  background: #E3C878;
+}
+.choice:disabled:not(.chosen) { opacity: 0.45; }
+
+/* Tap-to-continue prompt under a panel without choices. */
+.continue {
+  display: block;
+  width: 100%;
+  min-height: var(--button-min-height);
+  margin-top: 8px;
+  padding: 8px;
+  background: none;
+  border: none;
+  color: var(--gold-brown);
+  font-size: 16px;
+}
+
+/* Gold consequence banner, with the ✦ ornaments added by the engine. */
+.banner {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--gold);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.narration-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 10px 12px;
+  background: var(--caption-bg);
+  border: 2px solid var(--ink);
+}
+.narration-row img {
+  flex: 0 0 auto;
+  width: 58px;
+  height: 38px;
+  object-fit: cover;
+}
+.narration {
+  font-size: var(--caption-size);
+  font-style: italic;
+}
+
+.end-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+.complete { font-size: 16px; font-weight: bold; }
+.replay {
+  min-width: 110px;
+  padding: 6px 14px;
+  background: var(--panel-bg);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+}
+.replay:hover { background: #E3C878; }
+
+@media (prefers-reduced-motion: reduce) {
+  .panel { animation: none; }
+  html { scroll-behavior: auto; }
+}
