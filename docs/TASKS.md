@@ -13,12 +13,12 @@ Every task has a Goal (one sentence), a Scope (the only files that may change), 
 - **Scope:** README.md.
 - **Done when:** Every command and path in the README exists. The Pages link `https://shashibuilds.github.io/Oakhaven/` is in it. The APK, `android/` and `www/` sections are marked "not in this repo".
 - **Out of scope:** Any game, art or docs change.
-- **Blocked on:** T-003, so the README is written once for the new structure. GitHub Pages is already live.
+- **Blocked on:** T-003 being merged, so the README is written once for the new structure. GitHub Pages is already live.
 
 ### T-002 Redo Maren's portrait (Muse) - done
 - Merged in PR #2. The file is 992 KB, which T-004 shrinks.
 
-### T-003 Rebuild Page 1 in HTML and CSS (Muse) - todo
+### T-003 Rebuild Page 1 in HTML and CSS (Muse) - review
 - **Goal:** Page 1 plays from `data/story.json` in plain HTML, CSS and JavaScript, sharp on any phone, with no gaps or clipped text.
 - **Scope:** index.html, css/style.css (new), js/app.js (new), and deleting game.js and phaser.min.js. Do not edit data/story.json or docs/.
 - **Must:**
@@ -43,13 +43,14 @@ Every task has a Goal (one sentence), a Scope (the only files that may change), 
   4. Changing a caption in `data/story.json` changes it in the game after a reload.
   5. The console shows no errors. The only warning is the expected one for `hasIronKey`, which is set but not read until later pages exist.
 - **Out of scope:** New pages, new art, sound, saving progress, a title screen, and any change to story text or to the JSON format. If the JSON or `docs/DATA.md` looks wrong, say so in the PR instead of editing it.
+- **Review (Claude), PR #3:** Scope respected. The copy of `data/story.json` is identical to the one in this branch, which was needed because this branch was not merged yet. The code is clean and reads everything from the data. Good to merge once the Owner has played it on the phone. Follow-ups are T-008 and T-009.
 
 ### T-004 Right-size the images (Muse) - blocked
 - **Goal:** Images load quickly on mobile data with no visible loss of quality.
 - **Scope:** assets/, data/story.json (image paths only), docs/SHOTLIST.md.
 - **Done when:** Every image is WebP and at most 250 KB. Wide panels are 1200 px wide and portraits are 700×1400. The Owner compares old and new on a phone and sees no difference. The game still plays Page 1 to the end.
 - **Out of scope:** Regenerating or repainting any image.
-- **Blocked on:** T-003.
+- **Blocked on:** T-003 being merged.
 
 ### T-005 Outline for pages 2 to 5 with shot list (Claude) - blocked
 - **Goal:** A 5-page outline, the flags each page sets and reads, and a shot list of every image needed.
@@ -69,6 +70,30 @@ Every task has a Goal (one sentence), a Scope (the only files that may change), 
 - **Done when:** Owner approves. Every requirement comes from the stores' current official documentation, with the date it was checked.
 - **Out of scope:** Building anything.
 
+### T-008 Support more than one page (Muse) - blocked
+- **Goal:** The engine plays a chain of pages from `data/story.json`.
+- **Scope:** js/app.js, css/style.css (only if needed).
+- **Done when:**
+  1. In a throwaway copy of the JSON with a second page (not committed), the end panel of page 1 shows a Next page button when `next` is set.
+  2. Flags set on page 1 still apply on page 2.
+  3. Replay on a later page returns to page 1 with all flags reset, and "Page N complete" shows the right number.
+  4. A tap anywhere on the page, not only on the latest panel, reveals the next panel, as `docs/DATA.md` says.
+  5. Page 1 still plays exactly as before.
+- **Out of scope:** Saving progress, a title screen, new story content.
+- **Blocked on:** T-009, so both tasks do not edit the same files at once.
+
+### T-009 Polish after the rebuild (Muse) - blocked
+- **Goal:** Remove the small rough edges found in the T-003 review.
+- **Scope:** index.html, css/style.css, js/app.js.
+- **Done when:**
+  1. Images are preloaded at start, so a panel never grows after it appears and the scroll lands in the right place on a slow connection.
+  2. On the phone, no pale paper strip shows above Maren's head. If one does, shift `object-position` down until it is gone.
+  3. The repeated hover color is a CSS variable.
+  4. The page keeps clear of notches and rounded corners with `env(safe-area-inset-*)`.
+  5. The `<title>` says "Oakhaven" and does not name a page.
+- **Out of scope:** Anything else. No new features.
+- **Blocked on:** T-003 being merged.
+
 ## Open questions
 
 None yet.
@@ -79,7 +104,8 @@ None yet.
 
 ## Found along the way
 
-- Both Page 1 choices used to lead to the same stair. The new data gives each its own result panel. (T-003, T-005)
+- Both Page 1 choices used to lead to the same stair. The new data gives each its own result panel. (T-005)
 - The ring that matches the wax seal is below the crop of Maren's portrait, so it never shows on Page 1. Show it in a later panel. (T-005)
 - README describes `www/`, `android/`, `package.json` and a debug APK that are not in this repo. (T-001)
 - Page 1 images are 0.3 to 1.0 MB each. (T-004)
+- Bold text uses a browser-made bold, because only the regular weight of IM Fell English is loaded. Check the look on a phone.
