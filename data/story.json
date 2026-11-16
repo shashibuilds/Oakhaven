@@ -37,7 +37,7 @@
           "image": "assets/panel_staircase.png",
           "alt": "A hidden stone stair winding down beneath the well, lit by a lantern.",
           "banner": "Clue Gained: Abbey Seal Fragment",
-          "narration": "You match the crimson wax to the archivist’s ring—revealing a hidden stair beneath the well.",
+          "narration": "You match the crimson wax to the archivist’s ring — revealing a hidden stair beneath the well.",
           "thumb": "assets/panel_clue.png",
           "end": true
         },
@@ -48,7 +48,7 @@
           "image": "assets/panel_staircase.png",
           "alt": "A hidden stone stair winding down beneath the well, lit by a lantern.",
           "banner": "Maren: Cornered & Suspicious",
-          "narration": "She flinches and drops a heavy iron key. It fits the stair beneath the well.",
+          "narration": "She flinches, dropping a heavy iron key that unlocks the stair beneath the well.",
           "thumb": "assets/panel_clue.png",
           "end": true
         }
