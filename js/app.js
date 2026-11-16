@@ -101,10 +101,41 @@
     var img = document.createElement('img');
     img.src = src;
     img.alt = alt || '';
-    img.addEventListener('error', function () {
-      console.warn('Image failed to load: ' + src);
-    });
+    img.addEventListener('error', function () { warnImage(src); });
     return img;
+  }
+
+  var warnedImages = {};
+  function warnImage(src) {
+    if (warnedImages[src]) return;
+    warnedImages[src] = true;
+    console.warn('Image failed to load: ' + src);
+  }
+
+  // Preload every image in the data at start, so a panel never grows
+  // after it appears and the scroll lands in the right place, even on
+  // a slow connection. A failed image warns and does not block the game.
+  function collectImageUrls() {
+    var urls = {};
+    (data.pages || []).forEach(function (pg) {
+      (pg.panels || []).forEach(function (panel) {
+        if (panel.image) urls[panel.image] = true;
+        if (panel.thumb) urls[panel.thumb] = true;
+      });
+    });
+    return Object.keys(urls);
+  }
+
+  function preloadImages(urls) {
+    var jobs = urls.map(function (src) {
+      return new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = resolve;
+        img.onerror = function () { warnImage(src); resolve(); };
+        img.src = src;
+      });
+    });
+    return Promise.all(jobs);
   }
 
   function makeFigure(panel) {
@@ -325,7 +356,9 @@
         state.flags[key] = false;
       });
       checkData();
-      start(data.pages);
+      preloadImages(collectImageUrls()).then(function () {
+        start(data.pages);
+      });
     })
     .catch(function () {
       showError('Could not load the story. Check your connection and reload.');
