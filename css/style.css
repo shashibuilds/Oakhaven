@@ -34,6 +34,7 @@
   --bubble-bg: #FFFDF6;
   --muted: #5A4A3A;
   --gold-brown: #8A6D1B;
+  --hover: #E3C878;
   --page-outside: #1A1714;
   /* Type */
   --serif: 'IM Fell English', 'Cormorant Garamond', Georgia, serif;
@@ -65,7 +66,12 @@ body {
   margin: 0 auto;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: var(--gap);
+  /* Keep clear of notches and rounded corners; falls back to the gap. */
+  padding:
+    max(var(--gap), env(safe-area-inset-top))
+    max(var(--gap), env(safe-area-inset-right))
+    max(var(--gap), env(safe-area-inset-bottom))
+    max(var(--gap), env(safe-area-inset-left));
   background: var(--parchment);
 }
 
@@ -175,7 +181,9 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
+  /* Shifted down so the pale paper margin at the top of the portrait
+     never shows above Maren's head; the face stays fully in frame. */
+  object-position: 50% 10%;
 }
 .split .portrait-col { display: flex; flex-direction: column; }
 .speaker {
@@ -230,11 +238,11 @@ button:disabled { cursor: default; }
   line-height: 1.3;
 }
 .choice:last-of-type { margin-bottom: 0; }
-.choice:hover:not(:disabled) { background: #E3C878; }
+.choice:hover:not(:disabled) { background: var(--hover); }
 .choice.chosen {
   border-width: 3px;
   border-color: var(--gold);
-  background: #E3C878;
+  background: var(--hover);
 }
 .choice:disabled:not(.chosen) { opacity: 0.45; }
 
@@ -298,7 +306,7 @@ button:disabled { cursor: default; }
   border: 2px solid var(--ink);
   border-radius: var(--radius);
 }
-.replay:hover { background: #E3C878; }
+.replay:hover { background: var(--hover); }
 
 @media (prefers-reduced-motion: reduce) {
   .panel { animation: none; }
