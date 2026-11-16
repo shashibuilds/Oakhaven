@@ -8,7 +8,7 @@ Hand-painted gouache and watercolor. Bold hand-inked outlines. Visible paper gra
 
 Not allowed: glossy or 3D rendering, anime, photorealism, neon, modern objects, and any text or lettering inside an image.
 
-Game colors (from `game.js`): parchment #F4ECE1, ink #2B2623, lantern gold #C9A227 and #D9A441.
+Page colors: parchment #F4ECE1, ink #2B2623, lantern gold #C9A227 and #D9A441. They live as CSS variables in `css/style.css`.
 
 ## Style block
 
@@ -19,14 +19,14 @@ Paste this word for word at the start of every image prompt. Add the subject aft
 ## Keeping characters the same
 
 1. Make a reference sheet first: full body, a 3/4 view, and two faces (neutral and alarmed).
-2. Owner approves it. Save it as `assets/ref_<name>.png`.
+2. Owner approves it. Save it as `assets/ref_<name>.webp`.
 3. Every later image of that character is made from the approved sheet.
 4. The character's fixed traits are written in the Cast table in `docs/STORY.md`. Repeat them in the subject line.
 
 ## Files
 
-- Match the sizes of the existing files: wide panels are 1200 px wide and tall portraits are 1120×2240.
-- Names are lowercase with underscores: `panel_well_dusk.png`, `portrait_maren_alarmed.png`. Prefixes are `panel_`, `portrait_` and `ref_`.
-- PNG for now. Aim for at most 500 KB per image and 25 MB in total. Phones load these over mobile data.
+- Generate at any size, then export at these: wide panels are 1200 px wide (height set by the task), and tall portraits are 700 px wide and 1400 px tall. Other shapes need a task.
+- WebP, at most 250 KB per image and 15 MB in total. Phones load these over mobile data. The four Page 1 images are still PNG and are converted in T-004.
+- Names are lowercase with underscores: `panel_well_dusk.webp`, `portrait_maren_alarmed.webp`. Prefixes are `panel_`, `portrait_` and `ref_`.
 - Rejected generations are not committed.
 - Each committed image has a row in `docs/SHOTLIST.md`, including the subject line used.
